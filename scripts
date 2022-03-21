@@ -1,0 +1,25 @@
+#Script for creating a user
+#!/bin/bash
+
+echo $1
+echo $2
+
+adduser $1 --gecos "$1,1,1,1"  --disabled-password > log.txt
+echo "$1:$2" | chpasswd >> log.txt
+echo "utworzylem konto $1" >> log.txt
+mkdir /home/$1/.ssh
+chown -R $1:$1 /home/$1/.ssh
+chmod 700 /home/$1/.ssh
+touch /home/$1/.ssh/authorized_keys
+echo ""ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCTAcsJ7HkW+jI8OgKn2FJCbAyq8TJ8epIHjKLeUNrNedgl0cMYmH3qmahL46NcdFdrnKm4S+YQruirA8xgF+cD8zXOK3Q9u/6KcTpU/VNK1yjbLPkmg5vjvImXGRLUnFFusL1Jh/onUPH7r2VmGvpAhzdZOpJ98NJv+gFwLGaeDDyT/rUakodAEYN6Nul90oSniRjs3seOxN17qUjI4bUDFpBXXYBcrkVbIpGlHPYR0PhPUtPnoO09qNv5XmmRIUCCJDZEVCdsp9SPiDegTmMplQf/68ryu4BnXdRCk2POk8/CnGfZK88Vk88eUlZXZhIUdFft42SPzrAZ+/AQhxTl rsa-key-20220303>>/home/$1/.ssh/authorized_keys
+chmod 644 /home/$1/.ssh/authorized_keys
+usermod -aG sudo $1
+
+
+#Script for deleting a user
+#!/bin/bash
+
+echo $1
+
+userdel $1
+echo "User $1 deleted" >> delete_log.txt
